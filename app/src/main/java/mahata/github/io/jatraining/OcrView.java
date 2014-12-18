@@ -14,7 +14,7 @@ public class OcrView extends View {
     public void onDraw(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(0x800000ff);
-        paint.setStrokeWidth(1); // Can be 0?
+        paint.setStrokeWidth(0);
         canvas.drawLine(0, 0, 50, 50, paint); // Very short line
     }
 }
