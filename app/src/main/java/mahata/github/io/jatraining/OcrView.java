@@ -3,18 +3,51 @@ package mahata.github.io.jatraining;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class OcrView extends View {
-    public OcrView(Context context) {
+    private Paint paint;
+    private Path path;
+
+    public OcrView(Context context)
+    {
         super(context);
+
+        path = new Path();
+        paint = new Paint();
+        paint.setColor(0x800000ff);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(10);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(0x800000ff);
-        paint.setStrokeWidth(0);
-        canvas.drawLine(0, 0, 50, 50, paint); // Very short line
+        canvas.drawPath(path, paint);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(x, y);
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                path.lineTo(x, y);
+                invalidate();
+                break;
+        }
+
+        return true;
     }
 }
